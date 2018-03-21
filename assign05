@@ -1,0 +1,167 @@
+1.)	What is the name of the Instructor teaching Section 30101? (List all Section information, plus the Instructor’s name)
+
+SELECT s1.*, i1.FirstName, i1.LastName
+FROM Sections s1, Instructors i1
+WHERE s1.Instructor = i1.ID
+AND s1.CRN = 30101;
+
+2.)	What is the name of the course for Section 30108? (List all Section information, plus the course name)
+
+SELECT s1.*, c1.CourseName
+FROM Sections s1, Courses c1
+WHERE s1.CRN = 30108
+AND s1.CourseID = c1.CourseID;
+
+3.)	Give a list of Student Names and IDs that are signed up for the section with CRN=30101. (List Student’s first name, last name, ID and CRN)
+
+SELECT st1.ID, st1.FirstName, st1.LastName, ss1.CRN
+FROM Students st1, StudentSchedule ss1
+WHERE ss1.CRN = 30101
+AND st1.ID = ss1.StudentID;
+
+4.)	Give a list of all course names that instructor 6 is teaching. (List course name, CRN, TimeDays, roomNo and instructor ID)  Does instructor 6 have a scheduling conflict?
+
+SELECT c1.CourseName, s1.CRN, s1.TimeDays, 	s1.RoomNo, s1.Instructor
+FROM Courses c1, Sections s1
+WHERE s1.Instructor = 6
+AND c1.CourseID = s1.CourseID;
+
+5.)	How many total credit hours is instructor 6 teaching?
+
+SELECT sum(CreditHours) as TotalCreditHours
+FROM Courses c1, Sections s1
+WHERE s1.Instructor = 6
+AND c1.CourseID = s1.CourseID;
+
+6.)	Please give the CRN, Course Name, description and credithours, timedays and roomno for all the courses being taught in room 1147.  Are there any conflicts?
+
+SELECT s1.CRN, c1.CourseName, c1.Description, 				c1.CreditHours, s1.TimeDays, s1.RoomNo
+FROM Courses c1, Sections s1
+WHERE s1.RoomNo = 'F1147'
+AND c1.CourseID = s1.CourseID;
+
+7.)	Please list all the student names(first and last) that are in the section with CRN=30115.
+
+SELECT st1.FirstName, st1.LastName
+FROM Students st1, StudentSchedule ss1
+WHERE ss1.CRN = 30115
+AND st1.ID = ss1.StudentID;
+
+8.)	Please list all section information for all the sections that are being attended by Student with id=6.
+
+SELECT s1.*
+FROM Sections s1, StudentSchedule ss1
+WHERE ss1.StudentID = 6
+AND s1.CRN = ss1.CRN;
+
+
+
+
+
+
+9.)	Please list all section information for all the sections that are being attended each student.
+
+SELECT ss1.StudentID, s1.*
+FROM Sections s1, StudentSchedule ss1
+WHERE s1.CRN = ss1.CRN
+ORDER BY ss1.StudentID;
+
+10.)	Advanced: Please list the name of the course, the CRN and the Names of all the students that are in the section with CRN=30115.
+
+SELECT s1.CRN, c1.CourseName, st1.FirstName, 	st1.LastName
+FROM Courses c1, Sections s1, StudentSchedule ss1, 	Students st1
+WHERE c1.CourseID = s1.CourseId
+AND s1.CRN = ss1.CRN
+AND ss1.StudentID = st1.ID
+AND s1.CRN = 30115;
+
+11.)	How many Credit Hours is Debbie Gibson taking this Semester?
+
+SELECT sum(c1.CreditHours) as GibsonCreditHours
+FROM Courses c1, Students st1, StudentSchedule ss1, 	Sections s1
+WHERE st1.ID = ss1.StudentID
+AND ss1.CRN = s1.CRN
+AND s1.CourseID = c1.CourseID
+AND st1.FirstName = 'Debbie'
+AND st1.LastName = 'Gibson';
+
+
+
+
+
+
+
+
+12.)	Give the name of the course, time, day and roomNo for all courses that Debbie Gibson is taking.
+
+SELECT c1.CourseName, s1.TimeDays, s1.RoomNo
+FROM Courses c1, Students st1, StudentSchedule ss1, 	Sections s1
+WHERE st1.ID = ss1.StudentID
+AND ss1.CRN = s1.CRN
+AND s1.CourseID = c1.CourseID
+AND st1.FirstName = 'Debbie'
+AND st1.LastName = 'Gibson';
+
+13.)	Do the same as #12 above, except for all students.
+
+SELECT st1.FirstName, st1.LastName, c1.CourseName, 		s1.TimeDays, s1.RoomNo
+FROM Courses c1, Students st1, StudentSchedule ss1, 		Sections s1
+WHERE st1.ID = ss1.StudentID
+AND ss1.CRN = s1.CRN
+AND s1.CourseID = c1.CourseID;
+
+14.)	Give the name of the course, the number of credit hours, the name of the instructor, the time and day of the course and the roomNo for all classes taught in room F1150.
+
+SELECT s1.RoomNo, c1.CourseName, c1.CreditHours, 	s1.TimeDays, i1.FirstName, i1.LastName
+FROM Courses c1, Sections s1, Instructors i1
+WHERE c1.CourseID = s1.CourseID
+AND s1.Instructor = i1.ID
+AND s1.RoomNo = 'F1150';
+
+
+
+
+
+
+
+15.)	What is the avg gpa for all students taking the “Intro to Java” course?
+
+SELECT avg(st1.GPA) as avgGPA
+FROM Courses c1, Sections s1, StudentSchedule ss1, 	Students st1
+WHERE c1.CourseID = s1.CourseID
+AND s1.CRN = ss1.CRN
+AND ss1.StudentID = st1.ID
+AND c1.Description = 'Intro to Java';
+
+16.)	How many students are in each course? Give course number and how many students are in each course.
+
+SELECT s1.CRN, count(ss1.StudentID) AS 	CountOfStudentID
+FROM Sections s1, StudentSchedule ss1
+WHERE s1.CRN = ss1.CRN
+GROUP BY s1.CRN;	
+
+Or
+
+SELECT s1.CourseID, count(ss1.StudentID) AS 	CountOfStudentID
+FROM Sections s1, StudentSchedule ss1
+WHERE s1.CRN = ss1.CRN
+GROUP BY s1.CourseID;
+
+17.)	How many students is each instructor teaching?  Give instructor last name and how many students they are teaching.
+
+SELECT i1.LastName, count(ss1.StudentID) AS 	CountOfStudentID
+FROM Instructors i1, Sections s1, StudentSchedule ss1
+WHERE i1.ID = s1.Instructor
+AND s1.CRN = ss1.CRN
+GROUP BY i1.LastName;
+
+
+18.)	Ms Mitchell wants a list of all the students in his classes and their email addresses.
+
+SELECT st1.FirstName, st1.LastName, st1.EMail
+FROM Instructors i1, Sections s1, StudentSchedule ss1, 	Students st1
+WHERE i1.ID = s1.Instructor
+AND s1.CRN = ss1.CRN
+AND ss1.StudentID = st1.ID
+AND i1.LastName = 'Mitchell';
+
