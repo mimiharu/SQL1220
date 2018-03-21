@@ -1,0 +1,189 @@
+[Order By/Functions – Chap 5]
+
+
+Using the database provided, Write and Execute SELECT statements to get the following information:  
+
+Order By : 
+1.)	List of Students, first name and last name only, in alphabetical order by last name.
+
+SELECT FirstName, LastName
+FROM Students
+ORDER BY LastName;
+
+2.)	List all students, only id, first name, last name and gpa.  The student with the highest gpa should be listed first.
+
+SELECT ID, FirstName, LastName, GPA
+FROM Students
+ORDER BY GPA desc;
+
+3.)	Same as #2 above except the student with the lowest gpa should be listed first. 
+
+SELECT ID, FirstName, LastName, GPA
+FROM Students
+ORDER BY GPA;
+
+4.)	List all sections, all columns, sorted by instructor id.
+
+SELECT *
+FROM Instructors
+ORDER BY ID;
+
+5.)	List all sections, all columns, sorted by roomNo.
+
+SELECT *
+FROM Sections
+ORDER BY RoomNo;
+
+6.)	List all courses, all columns, sorted by creditHours
+
+SELECT *
+FROM Courses
+ORDER BY CreditHours;
+
+7.)	List all students, all columns, sorted first by state, then within each state, sorted by last name.
+
+SELECT *
+FROM Students
+ORDER BY State, LastName;
+
+8.)	Which student  (give id, first name and last name) has the lowest gpa? Use order by to see a list of students in order by gpa, and read the name of the student with the lowest gpa.
+
+SELECT ID, FirstName, LastName, GPA
+FROM Students
+ORDER BY GPA ;
+
+
+
+
+
+
+
+
+Functions : 
+9.)	What is the average gpa for all students?
+
+SELECT avg(GPA) as Average_GPA
+FROM Students;
+
+
+10.)	How many students are there from Illinois?
+
+SELECT count(ID)
+FROM Students
+WHERE State = 'IL';
+
+11.)	If a student were to take three courses(CIST 1001, CIST 1122 and CIST 1130) how many credit hours would this student be taking? 
+
+SELECT sum(CreditHours)
+FROM Courses
+WHERE CourseId in ('CIST 1001','CIST 1122','CIST 1130') ;
+
+12.)	How many sections are being taught by the  instructor with id 3?
+
+SELECT *
+FROM Sections
+WHERE Instructor = 3 ;
+
+
+
+
+[Group By/Functions – Chap 6]
+
+
+Group By : Using the database provided, Write and Execute SQL SELECT statements, using GROUP BY, to get the following information:  
+
+
+Group By : 
+13.)	How many classes are scheduled in each room?
+
+SELECT RoomNo, count(RoomNo)
+FROM Sections
+GROUP BY RoomNo;
+
+14.)	How many sections of each course are there being taught?
+
+SELECT CourseId, count(CourseID)
+FROM Sections
+GROUP BY CourseId;
+
+15.)	Which courses have only 1 section being taught?
+
+SELECT CourseId, count(CourseID)
+FROM Sections
+GROUP BY CourseId
+HAVING count(CourseID) =1;
+
+16.)	What is the avg gpa for all students from each different state?
+
+SELECT State, avg(GPA)
+FROM Students
+GROUP BY State;
+
+17.)	Which states have an avg gpa higher than 3.0?
+
+SELECT State, avg(GPA)
+FROM Students
+GROUP BY State
+HAVING avg(GPA) > 3.0;
+
+18.)	How many courses is each instructor teaching?
+
+SELECT Instructor, count(CourseID)
+FROM Sections
+GROUP BY Instructor;
+
+19.)	Do we have more 3 credit hour courses or 7 credit hour courses.(use Group by to answer this question)
+
+SELECT CreditHours, count(CourseID)
+FROM Courses
+GROUP BY CreditHours
+HAVING CreditHours = 3 or CreditHours = 7;
+
+20.)	How many instructors do we have from each state?
+
+SELECT State, count(LastName)
+FROM Instructors
+GROUP BY State;
+
+21.)	Same as #7 above, but only list the states that have 3 or more instructors.
+
+SELECT State
+FROM Instructors
+GROUP BY State
+HAVING count(State) >= 3;
+
+22.)	How many students are there from each state?
+
+SELECT State, count(ID)
+FROM Students
+GROUP BY State;
+
+23.)	Same as #10 above, but only list the states that have 2 or more students.
+
+SELECT State, count(ID)
+FROM Students
+GROUP BY State
+HAVING count(State) >= 2;
+
+
+
+
+
+USE the StudentSchedule Table for the last questions!
+
+24.)	How many students are there in each each Section being taught?
+
+SELECT CRN, count(StudentID)
+FROM StudentSchedule
+GROUP BY CRN;
+
+25.)	Which Sections have less than 3 students?
+
+SELECT CRN, count(StudentID)
+FROM StudentSchedule
+GROUP BY CRN
+HAVING count(StudentID) < 3;
+
+
+
+
