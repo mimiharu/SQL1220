@@ -1,0 +1,173 @@
+CIST 1220: SQL - Assign #2 
+
+Boobin Choi
+
+(70 Points)
+DUE: In DropBox by Monday June 19, 2017 11:55pm.
+
+
+[Simple SELECTS – Chap 4]
+
+
+Using the database provided, Write and Execute SELECT statements to get the following information(When you turn in your assignment, I only want the SQL code that you executed, you do not need to submit the output of the queries):  
+
+Courses Table : 
+1.)	List of all courses with CourseNo, Name and CreditHours
+
+SELECT CourseID, CourseName, CreditHours 
+FROM Courses;
+
+2.)	List of courses, all columns, with only 3 credit hours
+
+SELECT * 
+FROM Courses 
+WHERE CreditHours = 3;
+
+3.)	List of courses, name and credit hours only, with credit hours > 3.
+
+SELECT CourseName, CreditHours 
+FROM Courses 
+WHERE CreditHours > 3;
+
+
+
+Instructors Table : 
+4.)	List of Instructors, only fname and lname, from Georgia
+
+SELECT fname, lname 
+FROM Instructors 
+WHERE State in ('GA');
+
+5.)	List of instructors, just name and office and email from florida
+
+SELECT FirstName, LastName, Office, EMail 
+FROM Instructors 
+WHERE State = 'FL';
+
+6.)	List all instructors, id, lname and email with headings “ID”, “Name “and “EMail Address”
+
+SELECT *, id as [ID], lname as [Name], EMail as [EMailAddress] 
+FROM Instructors;
+
+ 
+Sections Table : 
+7.)	List of Sections with CRN, timedays for instructor 3
+
+SELECT CRN, TimeDays 
+FROM Sections 
+WHERE Instructor = 3;
+
+8.)	Does roomNo  ‘F1149’ have any scheduling conflicts
+
+SELECT TimeDays, RoomNo 
+FROM Sections 
+WHERE RoomNo = 'F1149';
+
+9.)	Does instructor 6 have any scheduling conflicts
+
+SELECT TimeDays, Instructor 
+FROM Sections 
+WHERE Instructor = 6;
+
+Students Table : 
+10.)	List of all Students, just FirstName, LastName and gpa, with a C avg(between 2.0 to 2.99)
+
+SELECT FirstName, LastName, GPA 
+FROM Students 
+WHERE GPA between 2.0 and 2.99 ;
+
+11.)	List of students from Georgia or Colorado
+
+SELECT * 
+FROM Students 
+WHERE State = 'GA' or State = 'CO';
+
+12.)	Which students have a B avg from Ga(3.0 to 3.99)
+
+SELECT * 
+FROM Students 
+WHERE State = 'GA' and GPA between 3.0 and 3.99;
+
+[More SELECTs – Chap 4]
+
+
+Using the database provided, Write and Execute SELECT statements to get the following information:  
+
+Students Table : 
+13.)	List of students, all columns, with GPA equal 0.
+
+SELECT * 
+FROM Students 
+WHERE GPA = 0;
+
+14.)	List of Students, name and state only, from GA, FL or CA.
+
+SELECT FirstName, LastName, State 
+FROM Students 
+WHERE State = 'GA' or State = 'FL' or State = 'CA';
+
+
+15.)	List all students with a C average.(2.0 to 2.99)
+
+SELECT * 
+FROM Students 
+WHERE GPA between 2.0 and 2.99;
+
+16.)	List all students that do not have an email address.
+
+SELECT *
+FROM Students
+WHERE Email is null;
+
+17.)	List all students with a last name that starts with ‘B’.
+
+SELECT *
+FROM Students
+WHERE LastName like ‘b*’;
+
+18.)	What would the gpa be for all students if they all studied alittle harder and raised their gpa by 0.5
+
+SELECT *, GPA +0.5
+FROM Students;
+
+19.)	What would be the gpa for all students if each student increased his/her gpa by 20%
+
+SELECT *, GPA + GPA * 0.2
+FROM Students;
+
+Instructors Table : 
+20.)	List of Instructors, only fname and lname, from Georgia and who’s last name ends in ‘son’.
+
+SELECT FirstName, LastName
+FROM Instructors
+WHERE State = 'GA' and LastName like '*son';
+
+
+
+21.)	List of instructors who have Yahoo email accounts
+
+SELECT *
+FROM Instructors
+WHERE EMail like '*yahoo*';
+
+ 
+Sections Table : 
+22.)	List of Sections, all info, taught on Sat.
+
+SELECT *
+FROM Sections
+WHERE TimeDays like 'S*';
+
+23.)	List all Sections, all info, not taught in room ‘F1150’
+
+SELECT *
+FROM Sections
+WHERE not RoomNo = 'F1150';
+	 
+ 
+Courses Table : 
+24.)	List of all Courses, just name and CourseID that are intro courses, ‘CIST 1001’, ‘CIST 1305’ or ‘CIST 1130’ and ‘CIST 1401’(use IN).
+
+SELECT CourseID, CourseName
+FROM Courses
+WHERE CourseID in ('CIST 1001', 'CIST 1305', 'CIST 1130', 'CIST 1401');
