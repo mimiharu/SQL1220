@@ -1,0 +1,103 @@
+PART I – SQL Coding Questions
+
+
+Sub Queries
+1.)	Who (give their name) makes the most money in each building?
+
+SELECT fname, lname
+FROM employees e1
+WHERE  salary = (select max(salary) 
+                               from employees e2
+ 	                     where e1.building = e2.building);
+
+2.)	List all the employees, fname, lname and dept  who make more money than the avg?
+
+SELECT fname, lname, dept
+FROM employees
+WHERE  salary > (select avg(salary) 
+            	           from employees);
+
+3.)	Give the person, lname and fname, and their account number, who has the most money in their Retirement Account. 
+
+SELECT fname, lname, retireacctnumber
+FROM employees
+WHERE  retireamount = (select max(retireamount) 
+                                           from employees);
+
+
+4.)	Give a list of all the managers(fname, lname and dept).
+
+SELECT fname, lname, dept
+FROM employees
+WHERE  manager in (select manager
+                                    from employees);
+
+5.)	Give a list of all employees(fname, lname and eid) who have their RetirementAccounts in Stocks.
+
+SELECT fname, lname, eid
+FROM employees e1
+WHERE  retireacct in (select retireacct
+           		      from employees e2
+             		      where e1.building = e2.building
+               		      and retireacct = 'stocks');
+
+6.)	Give me the person(fname and lname) that makes the most $$ and the person that makes the least.  Use only one query!
+
+SELECT fname, lname
+FROM Employees
+WHERE salary = (select max(salary)
+                             from employees)
+OR salary = (select min(salary)
+                       from employees);
+
+7.)	Give the employee(fname and lname) that make the most money in each dept.
+
+SELECT fname, lname, dept
+FROM employees e1
+WHERE salary = (select max(salary)
+                              from employees e2
+                              where e1.dept = e2.dept);
+
+
+
+
+
+
+
+
+PART II – SQL Short Answer Questions
+
+ 
+
+[More SubQueries – Chap 8]
+
+ 
+1.)	(10 Points) Please describe,  in a short 1-2 paragraph answer, just how a “Correlated Subquery “ actual works.  How does the inner query interact with the outer query?  Just how many times does the inner query actually execute, etc.
+
+“Correlated Subquery” works opposite way of the simple subquery. For example, a correlated subquery uses values from the outer query for the inner subquery to use in its evaluation, then the subquery results are passed back to the outer query. You usually use the correlated subquery when you look at the data row by row.
+In the correlated subquery, the inner query cannot be evaluated independently. It references the outer query and is executed once for each qualified row in the outer query. The inner query will run as much as the rows the outer table has. 
+
+
+2.)	(5 Points) Explain how ‘EXISTS’ works with Subqueries.
+
+The EXISTS operator is most likely used with correlated subqueries. The EXISTS keyword in a WHERE clause tests for the existence or nonexistence of data that meets the criteria of the subquery. The outer query presents values, one by one, that the inner query tests. It also tests for the presence or absence of rows. If it returns at least one row, the subquery evaluates to “true.” If it returns the empty set or no rows, the subquery evaluates to “false.”
+
+
+
+
+
+
+
+3.)	(5 Points) Which is better, joins or Subqueries?  Maybe give some advantages and disadvantages of each…
+
+It depends on your situation; if you want to compare aggregates to other values, subqueries are better, and if you want to display results from multiple tables, joins are better. A subquery can calculate an aggregate value on the fly and feed it back to the outer query for comparison while a join can’t compete. However, you can edit the results to include information from both tables using joins, which is not possible with the subquery. 
+
+
+4.)	(5 Points) Please explain how ‘any’ and ‘all’ maybe used with subqueries.
+
+Subquery uses ‘any’ and ‘all’ comparison operators, which return multiple values, including none, for the outer query. The ANY operator returns TRUE if any of the subquery values meet the condition. For example, “ = ANY (1,2,3)” means that any of the results can be true: =1 or =2 or =3. The ALL operator returns TRUE if all of the subquery values meet the condition. For example, “ = ALL (1,2,3)” statement returns TRUE if the results have values at the same time: “ = 1 and = 2 and = 3”
+
+
+5.)	(5 Points) Can Subqueries be used in Inserts, Deletes and/or Updates?  Please explain.
+
+Subqueries can nest in INSERTS, DELETES, and/or UPDATES. Run the INSERT, DELETE, or UPDATE command and check the data with a SELECT. Then execute a ROLLBACK command to cancel the changes. 
