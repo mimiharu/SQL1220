@@ -1,0 +1,141 @@
+1.)
+
+CREATE TABLE Patients
+(patID              char(6)                  not null        primary key,
+FirstName        varchar(30)          not null,
+LastName         varchar(30)          not null,
+Address            varchar(60)          null,
+PhoneNo          varchar(10)                null,
+DOB                varchar(8)                  null,
+InsuraceNo      varchar(10)                null);
+
+
+CREATE TABLE Dentists
+(dentID            char(6)                  not null        primary key,
+FirstName        varchar(30)          not null,
+LastName         varchar(30)          not null,
+Address            varchar(60)          null,
+PhoneNo          char(10)                null,
+LicenseNo        char(20)                null,
+Salary               numeric                null);
+
+
+CREATE TABLE Appointments
+(AppID            char(6)                  not null        primary key,
+patID               char(6)                 not null,
+dentID             char(6)                 not null,
+AppDate          varchar(20)          not null,
+AppTime          varchar(10)           not null,
+RoomNo          char(4)                  null,
+Status               varchar(10)          null);
+
+
+CREATE TABLE Procedures
+(ProcedID            char(6)                  not null        primary key,
+patID                   char(6)                 not null,
+dentID                 char(6)                 not null,
+Type                     varchar(30)          null,
+Cost                     varchar(20)          null,
+InsuraceNo         char(20)               null,
+OtherDetails        varchar(60)          null);	 
+
+
+2.)
+
+CREATE TABLE Employees
+(empID                   char(3)            not null        primary key,
+firstName               char(20)                not null,
+lastName                char(20)                not null,
+address                  varchar(30)          not null,
+deptCode              char(4)                  not null,
+salary                     money                  null,
+email                      varchar(60)          null);
+
+
+CREATE TABLE Depts
+(DepId                   char(4)                  not null        primary key,
+DeptName             varchar(20)           not null,
+DeptLocation        varchar(20)           not null);
+
+
+CREATE TABLE Accounts
+(acctNo                  char(5)                  not null        primary key,
+owner                    varchar(20)           not null,
+address                 varchar(20)           not null,
+type                       char(3)                  not null,
+balance                 money                  not null);
+
+
+3.)
+
+DROP TABLE Accounts;
+[INSERTs/DELETEs/UPDATEs – Chap 3]
+
+1.)
+
+INSERT INTO Patients
+VALUES ('1098', 'David', 'Wattson', 'Atlanta', '678-677-8787', '01-18-	1985', '487-7847');
+
+INSERT INTO Patients
+VALUES ('2457', 'Michelle', 'Hatches', 'Acworth', '770-787-9874', 	'02-15-1985', '787-9875');
+
+INSERT INTO Patients
+VALUES ('3455', 'John', 'Davis', 'Marietta', '470-784-3124', '09-	19-	1967', '345-1457');
+
+INSERT INTO Dentists
+VALUES ('1062', 'Tony', 'Jenkins', 'Dallas', '404-451-1414', '495-	8749', '$150,000.00');
+
+INSERT INTO Dentists
+VALUES ('2077', 'Betty', 'Jones', 'Nashville', '742-845-4512', '451-	4875', '$143,700.00');
+
+INSERT INTO Dentists
+VALUES ('3021', 'John', 'Carver', 'Miami', '453-451-4875', '414-8459', 	'$142,870.00');
+
+INSERT INTO Appointments
+VALUES (‘A1345’, ‘1098’, ‘1062’, ’11-02-2017’, ’11:30am’, ‘b101’, 	‘confirmed’);
+
+INSERT INTO Appointments
+VALUES (‘A1346’, ‘2457’, ‘2077’, ’10-12-2017’, ’1:30pm’, ‘b101’, 	‘confirmed’);
+
+INSERT INTO Appointments
+VALUES (‘A1347’, ‘3455’, ‘3021’, ’12-05-2017’, ’3:30pm’, ‘b103’, 	‘not confirmed’);
+
+INSERT INTO Procedures
+VALUES (‘P301’, ‘1098’, ‘1062’, ‘Braces’, ‘$1200.00’, ‘451-4875’, 	‘need Insurance update’);
+
+INSERT INTO Procedures
+VALUES (‘P302’, ‘2457’, ‘2077’, ‘Bridges and Implants’, 	‘$2400.00’, ‘784-9859’, ‘color A1 for both Bridges and Implants’);
+
+INSERT INTO Procedures
+VALUES ('P303', '3455', '3021', 'Root Canals', '$840.00', '654-4851', 	'none');
+
+2.)
+
+DELETE FROM Patients
+WHERE patID = '1098';
+
+DELETE FROM Patients
+WHERE patID = '2457';
+
+DELETE FROM Dentist
+WHERE dentID = '1062';
+
+DELETE FROM Dentist
+WHERE dentID = '2077';
+
+DELETE FROM Appointments
+WHERE AppID = 'A1345';
+
+DELETE FROM Appointments
+WHERE AppID = 'A1346';
+
+DELETE FROM Procedures
+WHERE ProcedID = 'P301';
+
+DELETE FROM Procedures
+WHERE ProcedID = 'P302';
+
+3.)
+
+UPDATE Dentists
+set LastName = 'Moore'
